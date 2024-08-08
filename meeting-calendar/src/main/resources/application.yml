@@ -1,0 +1,13 @@
+
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/meeting_calendar
+    username: postgres
+    password: postgres
+    #url: jdbc:postgresql://database:5432/liquitest
+    #driver-class-name: org.postgresql.Driver
+jpa:
+  hibernate:
+   ddl-auto: update
+  show-sql: true
