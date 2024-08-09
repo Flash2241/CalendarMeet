@@ -1,31 +1,37 @@
 package ru.neoflex.meeting_calendar.entity;
 
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
-
+import jakarta.persistence.*;
+import org.springframework.boot.autoconfigure.batch.BatchProperties;
 
 import java.time.LocalDateTime;
 
 @Entity
-
+@Table(name = "Meetings")
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Schema(description = "Наименование встречи", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Column(name = "title", nullable = false)
     private String title;
-    private LocalDateTime;
 
+    @Column(name = "start_time", nullable = false)
+    private LocalDateTime startTime;
 
+    @Column(name = "end_time", nullable = false)
+    private LocalDateTime endTime;
 
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
 
+    @ManyToOne
+    @JoinColumn(name = "job_id")
+    private BatchProperties.Job job;
 
+    @Column(name = "meeting_result")
+    private String meetingResult;
 
+    // Геттеры и сеттеры
 }
+// Модель встречи
