@@ -3,7 +3,9 @@ package ru.neoflex.meeting_calendar.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.management.relation.Role;
+import org.springframework.stereotype.Repository;
+import ru.neoflex.meeting_calendar.entity.Role;
 
+@Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 }

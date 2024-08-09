@@ -8,23 +8,20 @@ import java.time.ZonedDateTime;
 @Table(name = "MeetingChanges")
 public class MeetingChange {
     @Id
+    @Column(name = "change_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long changeId;
-
-    @ManyToOne
-    @JoinColumn(name = "meeting_id", referencedColumnName = "meetingId")
-    private Meeting meeting;
 
     private String oldTitle;
     private ZonedDateTime oldStartTime;
     private ZonedDateTime oldEndTime;
 
     @ManyToOne
-    @JoinColumn(name = "creator_id", referencedColumnName = "userId")
+    @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
     private User creator;
 
     @ManyToOne
-    @JoinColumn(name = "old_job_id", referencedColumnName = "jobId")
+    @JoinColumn(name = "old_job_id", referencedColumnName = "job_id")
     private Job oldJob;
 
     private String oldMeetingResult;

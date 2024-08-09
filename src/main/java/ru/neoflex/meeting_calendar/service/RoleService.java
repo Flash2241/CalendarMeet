@@ -3,9 +3,9 @@ package ru.neoflex.meeting_calendar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.neoflex.meeting_calendar.entity.Role;
 import ru.neoflex.meeting_calendar.repo.RoleRepository;
 
-import javax.management.relation.Role;
 import java.util.List;
 import java.util.Optional;
 

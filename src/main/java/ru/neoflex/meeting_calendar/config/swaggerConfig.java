@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.info.Info;
  */
 @OpenAPIDefinition(
         info = @Info(
-                title = "Deal API",
-                description = "API для обработки заявки на кредит. Сохраняет в БД данные о клиенте и его кредитах.", version = "1.0.0",
+                title = "CalendarMeet API",
+                description = "Серверная часть приложения для бронирования встреч", version = "1.0.0",
                 contact = @Contact(
                         name = "Кирилл Лазарев",
                         email = "kirilaz0201@gmail.com"

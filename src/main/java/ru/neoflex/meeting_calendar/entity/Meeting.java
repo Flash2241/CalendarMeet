@@ -1,16 +1,19 @@
 package ru.neoflex.meeting_calendar.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 @Table(name = "Meetings")
 public class Meeting {
     @Id
+    @Column(name = "meeting_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long meetingId;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -27,10 +30,9 @@ public class Meeting {
 
     @ManyToOne
     @JoinColumn(name = "job_id")
-    private BatchProperties.Job job;
+    private Job job;
 
-    @Column(name = "meeting_result")
-    private String meetingResult;
+    private String comment;
 
     // Геттеры и сеттеры
 }

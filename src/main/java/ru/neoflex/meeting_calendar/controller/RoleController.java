@@ -1,23 +1,24 @@
 package ru.neoflex.meeting_calendar.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.neoflex.meeting_calendar.service.RoleService;
 
-import javax.management.relation.Role;
+import ru.neoflex.meeting_calendar.entity.Role;
 import java.util.List;
 import java.util.Optional;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/roles")
 public class RoleController {
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
     @GetMapping
     public List<Role> getAllRoles() {

@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 @Table(name = "Jobs")
 public class Job {
     @Id
+    @Column(name = "job_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long jobId;
 
     @Column(name = "title", nullable = false)
     private String title;

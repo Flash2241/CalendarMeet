@@ -1,11 +1,16 @@
 package ru.neoflex.meeting_calendar.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.neoflex.meeting_calendar.entity.Meeting;
+import ru.neoflex.meeting_calendar.entity.MeetingParticipant;
+import ru.neoflex.meeting_calendar.entity.MeetingParticipantId;
+import ru.neoflex.meeting_calendar.interfaces.Meetings;
+//import ru.neoflex.meeting_calendar.service.EmailService;
 import ru.neoflex.meeting_calendar.service.MeetingService;
 
 import java.util.List;
@@ -13,11 +18,12 @@ import java.util.Optional;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/meetings")
-public class MeetingController {
+public class MeetingController implements Meetings {
 
-    @Autowired
-    private MeetingService meetingService;
+    private final MeetingService meetingService;
+    //private final EmailService emailService;
 
     @GetMapping
     public List<Meeting> getAllMeetings() {
@@ -31,13 +37,14 @@ public class MeetingController {
     }
 
     @PostMapping
-    public ResponseEntity<Meeting> createMeeting(@RequestBody Meeting meeting) {
+    public ResponseEntity<Meeting> createMeeting(Meeting meeting) {
         Meeting createdMeeting = meetingService.createMeeting(meeting);
+        //emailService.sendEmailInvitations(createdMeeting);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMeeting);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Meeting> updateMeeting(@PathVariable Long id, @RequestBody Meeting meetingDetails) {
+    public ResponseEntity<Meeting> updateMeeting(@PathVariable Long id, Meeting meetingDetails) {
         Meeting updatedMeeting = meetingService.updateMeeting(id, meetingDetails);
         if (updatedMeeting != null) {
             return ResponseEntity.ok(updatedMeeting);

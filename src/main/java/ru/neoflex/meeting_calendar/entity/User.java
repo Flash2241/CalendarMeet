@@ -2,15 +2,18 @@ package ru.neoflex.meeting_calendar.entity;
 
 import jakarta.persistence.*;
 
-import javax.management.relation.Role;
+import ru.neoflex.meeting_calendar.entity.Role;
+import lombok.Data;
 
 
 @Entity
+@Data
 @Table(name = "Users")
 public class User {
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @Column(name = "user_name", nullable = false)
     private String name;

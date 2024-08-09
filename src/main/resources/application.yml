@@ -1,16 +1,30 @@
-
-
 spring:
+  application:
+      name: CalendarMeet
   datasource:
-    url: jdbc:postgresql://localhost:5432/meeting_calendar
+    url: jdbc:postgresql://localhost:5432/NeoHack
     username: postgres
-    password: postgres
-    #url: jdbc:postgresql://database:5432/liquitest
-    #driver-class-name: org.postgresql.Driver
-jpa:
-  hibernate:
-   ddl-auto: update
-  show-sql: true
+    password: password
+    driver-class-name: org.postgresql.Driver
+  #mail:
+  #  host: smtp.gmail.com
+  #  port: 587
+  #  username: <email_address>
+  #  password: <application_password>
+  #  properties:
+  #    mail.smtp:
+  #      auth: true
+  #      starttls.enable: true
+  #      ssl:
+  #        protocols: TLSv1.2
+  #        trust: smtp.gmail.com
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 9000
+
 
 
 

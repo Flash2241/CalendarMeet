@@ -1,13 +1,18 @@
 package ru.neoflex.meeting_calendar.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 
 @Entity
+@Data
 @Table(name = "MeetingParticipants")
 public class MeetingParticipant {
     @EmbeddedId
-    private MeetingParticipantId id;
+    @Column(name = "meeting_participant_id")
+    private MeetingParticipantId participantData;
 
+    
     @ManyToOne
     @JoinColumn(name = "status_id")
     private MeetingParticipantStatus status;

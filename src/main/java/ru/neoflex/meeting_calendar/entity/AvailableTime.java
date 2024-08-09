@@ -8,8 +8,9 @@ import java.time.LocalDateTime;
 @Table(name = "AvailableTimes")
 public class AvailableTime {
     @Id
+    @Column(name = "availability_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long availabilityId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

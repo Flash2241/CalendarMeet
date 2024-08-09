@@ -38,7 +38,7 @@ public class MeetingService {
             meeting.setTitle(meetingDetails.getTitle());
             meeting.setStartTime(meetingDetails.getStartTime());
             meeting.setEndTime(meetingDetails.getEndTime());
-            meeting.setMeetingResult(meetingDetails.getMeetingResult());
+            meeting.setComment(meetingDetails.getComment());
             return meetingRepository.save(meeting);
         }
 

@@ -7,11 +7,12 @@ import java.time.ZonedDateTime;
 @Table(name = "Reminders")
 public class Reminder {
     @Id
+    @Column(name = "reminder_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reminderId;
 
     @ManyToOne
-    @JoinColumn(name = "meeting_id", referencedColumnName = "meetingId")
+    @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
     private Meeting meeting;
 
     private ZonedDateTime reminderTime;

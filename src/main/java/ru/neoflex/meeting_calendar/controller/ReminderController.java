@@ -1,5 +1,6 @@
 package ru.neoflex.meeting_calendar.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +11,11 @@ import ru.neoflex.meeting_calendar.service.ReminderService;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/reminders")
 public class ReminderController {
 
     private final ReminderService reminderService;
-
-    @Autowired
-    public ReminderController(ReminderService reminderService) {
-        this.reminderService = reminderService;
-    }
 
     @PostMapping
     public ResponseEntity<Reminder> createReminder(@RequestBody Reminder reminder) {
