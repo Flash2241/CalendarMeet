@@ -3,18 +3,19 @@ package ru.neoflex.meeting_calendar.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "MeetingParticipantsStatus")
+@Table(name = "meeting_participant_statuses")
 public class MeetingParticipantStatus {
-    @Id
-    @Column(name = "meeting_status_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long meetingStatusId;
 
-    @Column(name = "status_name", nullable = false)
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer meetingStatusId;
+
+    @Column(name = "status_name", nullable = false, length = 30)
+    private String statusName;
 
     @Column(name = "status_description")
-    private String description;
+    private String statusDescription;
 
     // Геттеры и сеттеры
 }
+

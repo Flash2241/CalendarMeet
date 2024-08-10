@@ -2,25 +2,40 @@ package ru.neoflex.meeting_calendar.entity;
 
 import jakarta.persistence.*;
 
+import java.security.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "AvailableTimes")
+@Table(name = "available_times")
 public class AvailableTime {
+
     @Id
-    @Column(name = "availability_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long availabilityId;
+    private Integer availabilityId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    private Timestamp startTime;
 
     @Column(name = "end_time", nullable = false)
-    private LocalDateTime endTime;
+    private Timestamp endTime;
+
+    public Timestamp getStartTime() {
+        return null;
+    }
+
+    public void setStartTime(java.sql.Timestamp timestamp) {
+    }
+
+    public void setEndTime(java.sql.Timestamp timestamp) {
+    }
+
+    public Timestamp getEndTime() {
+        return null;
+    }
 
     // Геттеры и сеттеры
 }

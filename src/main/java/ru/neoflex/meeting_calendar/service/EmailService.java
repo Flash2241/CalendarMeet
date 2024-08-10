@@ -1,4 +1,4 @@
-/*
+
 package ru.neoflex.meeting_calendar.service;
 
 import java.time.format.DateTimeFormatter;
@@ -105,4 +105,4 @@ public class EmailService {
         message.getSubject());
   }
 }
-*/
+

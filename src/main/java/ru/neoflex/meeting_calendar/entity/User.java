@@ -5,42 +5,67 @@ import jakarta.persistence.*;
 import ru.neoflex.meeting_calendar.entity.Role;
 import lombok.Data;
 
+import javax.management.relation.RelationNotification;
+
 
 @Entity
-@Data
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
+
     @Id
-    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Integer userId;
 
-    @Column(name = "user_name", nullable = false)
-    private String name;
+    @Column(name = "user_name", nullable = false, length = 100)
+    private String userName;
 
-    @Column(name = "user_surname", nullable = false)
-    private String surname;
+    @Column(name = "user_surname", nullable = false, length = 100)
+    private String userSurname;
 
-    @Column(name = "user_patronymic")
-    private String patronymic;
+    @Column(name = "user_patronymic", length = 100)
+    private String userPatronymic;
 
-    @Column(name = "user_email", unique = true, nullable = false)
-    private String email;
+    @Column(name = "user_email", nullable = false, unique = true, length = 254)
+    private String userEmail;
 
-    @Column(name = "user_phone_number", unique = true)
-    private String phoneNumber;
+    @Column(name = "user_phone_number", nullable = false, unique = true, length = 15)
+    private String userPhoneNumber;
 
     @ManyToOne
-    @JoinColumn(name = "user_role")
-    private Role role;
+    @JoinColumn(name = "user_role", nullable = false)
+    private Role userRole;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(nullable = false, unique = true, length = 255)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false, length = 255)
     private String password;
 
+    public String getUserEmail() {
+    }
+
+    public RelationNotification getUserRole() {
+    }
+
+    public void setUserRole(Role userRole) {
+    }
+
+    public Object getPassword() {
+        return null;
+    }
+
+    public void setUserEmail(String mail) {
+    }
+
+    public void setUserId(int i) {
+
+    }
+
+    public void setPassword(String encode) {
+
+    }
 
     // Геттеры и сеттеры
 }
+
 // Модель пользователя

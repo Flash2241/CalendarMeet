@@ -6,56 +6,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.neoflex.meeting_calendar.entity.Meeting;
-import ru.neoflex.meeting_calendar.entity.MeetingParticipant;
-import ru.neoflex.meeting_calendar.entity.MeetingParticipantId;
+import ru.neoflex.meeting_calendar.entity.*;
 import ru.neoflex.meeting_calendar.interfaces.Meetings;
 //import ru.neoflex.meeting_calendar.service.EmailService;
+import ru.neoflex.meeting_calendar.service.MeetingParticipantStatusService;
 import ru.neoflex.meeting_calendar.service.MeetingService;
+import ru.neoflex.meeting_calendar.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/meetings")
-public class MeetingController implements Meetings {
+public class MeetingController {
 
     private final MeetingService meetingService;
-    //private final EmailService emailService;
+    private final MeetingParticipantStatusService statusService;
 
-    @GetMapping
-    public List<Meeting> getAllMeetings() {
-        return meetingService.getAllMeetings();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Meeting> getMeetingById(@PathVariable Long id) {
-        Optional<Meeting> meeting = meetingService.getMeetingById(id);
-        return meeting.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @Autowired
+    public MeetingController(MeetingService meetingService, MeetingParticipantStatusService statusService) {
+        this.meetingService = meetingService;
+        this.statusService = statusService;
     }
 
     @PostMapping
-    public ResponseEntity<Meeting> createMeeting(Meeting meeting) {
-        Meeting createdMeeting = meetingService.createMeeting(meeting);
-        //emailService.sendEmailInvitations(createdMeeting);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdMeeting);
+    public ResponseEntity<String> createMeeting(@RequestBody Meeting meeting) {
+        meetingService.createMeeting(meeting);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Meeting created successfully");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Meeting> updateMeeting(@PathVariable Long id, Meeting meetingDetails) {
-        Meeting updatedMeeting = meetingService.updateMeeting(id, meetingDetails);
-        if (updatedMeeting != null) {
-            return ResponseEntity.ok(updatedMeeting);
-        } else {
-            return ResponseEntity.notFound().build();
+    @PostMapping("/{meetingId}/participants")
+    public ResponseEntity<String> addParticipant(@PathVariable Integer meetingId, @RequestBody Map<String, String> participantData) {
+        Optional<Meeting> meetingOpt = meetingService.findMeetingById(meetingId);
+        if (!meetingOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Meeting not found");
         }
+
+        Meeting meeting = meetingOpt.get();
+        UserService userService = null;
+        Optional<User> userOpt = userService.findUserByUsername(participantData.get("username"));
+        if (!userOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        User user = userOpt.get();
+        MeetingParticipantStatus status = statusService.findStatusByName(participantData.get("status"));
+        meetingService.addParticipantToMeeting(meeting, user, status);
+
+        return ResponseEntity.ok("Participant added successfully");
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMeeting(@PathVariable Long id) {
-        meetingService.deleteMeeting(id);
-        return ResponseEntity.noContent().build();
-    }
+    // Другие методы для поиска встреч, обновления данных о встречах, изменения участников и т.д.
 }

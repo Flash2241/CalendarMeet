@@ -1,56 +1,78 @@
 package ru.neoflex.meeting_calendar.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.neoflex.meeting_calendar.entity.Role;
 import ru.neoflex.meeting_calendar.entity.User;
 import ru.neoflex.meeting_calendar.interfaces.Users;
+import ru.neoflex.meeting_calendar.service.RoleService;
 import ru.neoflex.meeting_calendar.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/users")
-public class UserController implements Users {
+public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @Autowired
+    public UserController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.getUserById(id);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@Valid @RequestBody User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }
+
+        if (userService.findUserByEmail(user.getUserEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+        }
+
+        Role userRole = roleService.findRoleByName(user.getUserRole().getRoleName());
+        user.setUserRole(userRole);
+        userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(User user) {
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-    }
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@Valid @RequestBody Map<String, String> loginData, BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, User userDetails) {
-        User updatedUser = userService.updateUser(id, userDetails);
-        if (updatedUser != null) {
-            return ResponseEntity.ok(updatedUser);
+        String username = loginData.get("username");
+        String password = loginData.get("password");
+
+        Optional<User> userOpt = userService.findUserByUsername(username);
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            // Логика проверки пароля (пароль должен быть хеширован и проверен корректно)
+            if (user.getPassword().equals(password)) {
+                return ResponseEntity.ok("Login successful");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid credentials");
+            }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
-    }
+    // Другие методы
 }
+
+

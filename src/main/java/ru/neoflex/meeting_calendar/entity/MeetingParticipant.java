@@ -5,18 +5,35 @@ import lombok.Data;
 
 
 @Entity
-@Data
-@Table(name = "MeetingParticipants")
+@Table(name = "meeting_participants")
+@IdClass(MeetingParticipantId.class)
 public class MeetingParticipant {
-    @EmbeddedId
-    @Column(name = "meeting_participant_id")
-    private MeetingParticipantId participantData;
 
-    
+    @Id
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "meeting_id", nullable = false)
+    private Meeting meeting;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
     private MeetingParticipantStatus status;
+
+    public void setMeeting(Meeting meeting) {
+    }
+
+    public void setUser(User user) {
+    }
+
+    public void setStatus(MeetingParticipantStatus status) {
+
+    }
 
     // Геттеры и сеттеры
 }
+
 // Модель статуса участника

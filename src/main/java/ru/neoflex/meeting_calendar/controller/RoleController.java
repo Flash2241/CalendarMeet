@@ -13,43 +13,30 @@ import java.util.List;
 import java.util.Optional;
 
 
+
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/roles")
 public class RoleController {
 
     private final RoleService roleService;
 
-    @GetMapping
-    public List<Role> getAllRoles() {
-        return roleService.getAllRoles();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
-        Optional<Role> role = roleService.getRoleById(id);
-        return role.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @Autowired
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @PostMapping
-    public ResponseEntity<Role> createRole(@RequestBody Role role) {
-        Role createdRole = roleService.createRole(role);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdRole);
+    public ResponseEntity<String> createRole(@RequestBody Role role) {
+        roleService.createRole(role);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Role created successfully");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Role> updateRole(@PathVariable Long id, @RequestBody Role roleDetails) {
-        Role updatedRole = roleService.updateRole(id, roleDetails);
-        if (updatedRole != null) {
-            return ResponseEntity.ok(updatedRole);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{roleName}")
+    public ResponseEntity<Role> getRoleByName(@PathVariable String roleName) {
+        Role role = roleService.findRoleByName(roleName);
+        return ResponseEntity.ok(role);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
-        roleService.deleteRole(id);
-        return ResponseEntity.noContent().build();
-    }
+    // Другие методы для работы с ролями
 }
+

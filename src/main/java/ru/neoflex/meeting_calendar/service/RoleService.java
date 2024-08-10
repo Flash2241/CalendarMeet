@@ -4,8 +4,9 @@ package ru.neoflex.meeting_calendar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.meeting_calendar.entity.Role;
+import ru.neoflex.meeting_calendar.exceptions.MeetingConflictException;
 import ru.neoflex.meeting_calendar.repo.RoleRepository;
-
+import ru.neoflex.meeting_calendar.exceptions.RoleNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,35 +14,22 @@ import java.util.Optional;
 @Service
 public class RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    @Autowired
+    public RoleService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
-    public Optional<Role> getRoleById(Long id) {
-        return roleRepository.findById(id);
+    public Role findRoleByName(String roleName) {
+        return roleRepository.findByRoleName(roleName)
+                .orElseThrow(() -> new RoleNotFoundException("Role not found"));
     }
 
     public Role createRole(Role role) {
-        return roleRepository.save(role);
-    }
-
-    public Role updateRole(Long id, Role roleDetails) {
-        Optional<Role> roleOptional = roleRepository.findById(id);
-
-        if (roleOptional.isPresent()) {
-            Role role = roleOptional.get();
-            role.setName(roleDetails.getName());
-            role.setDescription(roleDetails.getDescription());
-            return roleRepository.save(role);
+        if (roleRepository.findByRoleName(role.getRoleName()).isPresent()) {
+            throw new MeetingConflictException("Role with this name already exists");
         }
-
-        return null;  // лучше бросать исключение, если роль не найдена
-    }
-
-    public void deleteRole(Long id) {
-        roleRepository.deleteById(id);
+        return roleRepository.save(role);
     }
 }
