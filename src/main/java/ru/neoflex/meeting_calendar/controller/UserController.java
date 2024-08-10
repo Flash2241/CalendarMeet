@@ -23,15 +23,15 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController implements Users {
 
     private final UserService userService;
     private final RoleService roleService;
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
-/*        if (result.hasErrors()) {
+    public ResponseEntity<String> registerUser(User user) {
+        /*if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
         }*/
 
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody Map<String, String> loginData) {
+    public ResponseEntity<String> loginUser(Map<String, String> loginData) {
 /*        if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
         }*/

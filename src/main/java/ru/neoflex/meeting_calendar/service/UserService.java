@@ -2,9 +2,7 @@ package ru.neoflex.meeting_calendar.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+// org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.neoflex.meeting_calendar.entity.Role;
 import ru.neoflex.meeting_calendar.entity.User;
@@ -17,7 +15,7 @@ import ru.neoflex.meeting_calendar.exceptions.MeetingConflictException;
 import java.util.Optional;
 
 @Service
-public class UserService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -62,7 +60,7 @@ public class UserService implements org.springframework.security.core.userdetail
         return userRepository.findUsersByUserRole_RoleId(roleId);
     }
     // Метод для загрузки пользователя по имени пользователя
-    @Override
+/*    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUserEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
@@ -71,7 +69,7 @@ public class UserService implements org.springframework.security.core.userdetail
                 .password(user.getPassword())
                 .authorities(user.getUserRole().getRoleName())
                 .build();
-    }
+    }*/
 
     // Метод для проверки учетных данных пользователя
 /*    public boolean validateUserCredentials(String email, String rawPassword) {

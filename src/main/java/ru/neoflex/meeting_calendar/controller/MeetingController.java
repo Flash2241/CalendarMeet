@@ -1,6 +1,7 @@
 package ru.neoflex.meeting_calendar.controller;
 
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,4 +57,31 @@ public class MeetingController {
     }
 
     // Другие методы для поиска встреч, обновления данных о встречах, изменения участников и т.д.
+
+    public List<Meeting> getAllMeetings() {
+        return meetingService.getAllMeetings();
+    }
+
+    public ResponseEntity<Optional<Meeting>> getMeetingById(Integer id) {
+        return meetingService.getMeetingById(id);
+    }
+
+    public Meeting updateMeeting(Integer id, Meeting meetingDetails) {
+        Optional<Meeting> meetingOptional = meetingService.findMeetingById(id);
+
+        if (meetingOptional.isPresent()) {
+            Meeting meeting = meetingOptional.get();
+            meeting.setTitle(meetingDetails.getTitle());
+            meeting.setStartTime(meetingDetails.getStartTime());
+            meeting.setEndTime(meetingDetails.getEndTime());
+            meeting.setComment(meetingDetails.getComment());
+            return meetingService.createMeeting(meeting);
+        }
+
+        return null;  // лучше бросать исключение, если встреча не найдена
+    }
+
+    public void deleteMeeting(Integer id) {
+        meetingService.deleteMeeting(id);
+    }
 }

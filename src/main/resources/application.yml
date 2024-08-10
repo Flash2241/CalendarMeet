@@ -2,9 +2,9 @@ spring:
   application:
       name: CalendarMeet
   datasource:
-    url: jdbc:postgresql://localhost:5432/NeoHack
-    username: postgres
-    password: password
+    url: jdbc:postgresql://rc1b-wwbzmz7xcyzdmat1.mdb.yandexcloud.net:6432/cnrprod1723112633-team-74053
+    username: cnrprod1723112633-team-74053
+    password: hah9oonahshooquiequo1Mae5aiphuaS
     driver-class-name: org.postgresql.Driver
   #mail:
   #  host: smtp.gmail.com
@@ -19,6 +19,7 @@ spring:
   #        protocols: TLSv1.2
   #        trust: smtp.gmail.com
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true

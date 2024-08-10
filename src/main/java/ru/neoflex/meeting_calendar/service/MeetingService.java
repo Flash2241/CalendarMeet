@@ -1,11 +1,10 @@
 package ru.neoflex.meeting_calendar.service;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.neoflex.meeting_calendar.entity.*;
+import ru.neoflex.meeting_calendar.interfaces.Meetings;
 import ru.neoflex.meeting_calendar.repo.MeetingParticipantRepository;
 import ru.neoflex.meeting_calendar.repo.MeetingRepository;
 import ru.neoflex.meeting_calendar.exceptions.MeetingConflictException;
@@ -14,7 +13,7 @@ import java.util.Optional;
 
 
 @Service
-public class MeetingService {
+public class MeetingService implements Meetings {
 
     private final MeetingRepository meetingRepository;
     private final MeetingParticipantRepository meetingParticipantRepository;
@@ -58,6 +57,34 @@ public class MeetingService {
 
     public List<Meeting> findMeetingsByJob(Job job) {
         return meetingRepository.findByJob(job);
+    }
+
+    public List<Meeting> getAllMeetings() {
+        return meetingRepository.findAll();
+    }
+
+    public ResponseEntity<Optional<Meeting>> getMeetingById(Integer id) {
+        Optional<Meeting> meeting = meetingRepository.findById(id);
+        return ResponseEntity.ok(meeting);
+    }
+
+    public Meeting updateMeeting(Integer id, Meeting meetingDetails) {
+        Optional<Meeting> meetingOptional = meetingRepository.findById(id);
+
+        if (meetingOptional.isPresent()) {
+            Meeting meeting = meetingOptional.get();
+            meeting.setTitle(meetingDetails.getTitle());
+            meeting.setStartTime(meetingDetails.getStartTime());
+            meeting.setEndTime(meetingDetails.getEndTime());
+            meeting.setComment(meetingDetails.getComment());
+            return meetingRepository.save(meeting);
+        }
+
+        return null;  // лучше бросать исключение, если встреча не найдена
+    }
+
+    public void deleteMeeting(Integer id) {
+        meetingRepository.deleteById(id);
     }
 
 }
