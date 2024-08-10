@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class MeetingParticipantStatus {
 
     @Id
+    @Column(name = "meeting_status_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer meetingStatusId;
 

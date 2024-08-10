@@ -26,7 +26,7 @@ public class JobService {
         return jobRepository.save(job);
     }
 
-    public Optional<Job> findJobByTitle(String title) {
+    public Job findJobByTitle(String title) {
         return jobRepository.findByTitle(title)
                 .orElseThrow(() -> new MeetingConflictException("Job with this title not found"));
     }

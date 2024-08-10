@@ -2,14 +2,14 @@ package ru.neoflex.meeting_calendar.entity;
 
 import jakarta.persistence.*;
 
-import java.security.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "available_times")
 public class AvailableTime {
 
     @Id
+    @Column(name = "availability_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer availabilityId;
 

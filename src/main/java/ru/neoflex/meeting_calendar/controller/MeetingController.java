@@ -13,23 +13,21 @@ import ru.neoflex.meeting_calendar.service.MeetingParticipantStatusService;
 import ru.neoflex.meeting_calendar.service.MeetingService;
 import ru.neoflex.meeting_calendar.service.UserService;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/meetings")
 public class MeetingController {
 
     private final MeetingService meetingService;
+
+    private final UserService userService;
+
     private final MeetingParticipantStatusService statusService;
 
-    @Autowired
-    public MeetingController(MeetingService meetingService, MeetingParticipantStatusService statusService) {
-        this.meetingService = meetingService;
-        this.statusService = statusService;
-    }
 
     @PostMapping
     public ResponseEntity<String> createMeeting(@RequestBody Meeting meeting) {
@@ -40,14 +38,13 @@ public class MeetingController {
     @PostMapping("/{meetingId}/participants")
     public ResponseEntity<String> addParticipant(@PathVariable Integer meetingId, @RequestBody Map<String, String> participantData) {
         Optional<Meeting> meetingOpt = meetingService.findMeetingById(meetingId);
-        if (!meetingOpt.isPresent()) {
+        if (meetingOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Meeting not found");
         }
 
         Meeting meeting = meetingOpt.get();
-        UserService userService = null;
         Optional<User> userOpt = userService.findUserByUsername(participantData.get("username"));
-        if (!userOpt.isPresent()) {
+        if (userOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 

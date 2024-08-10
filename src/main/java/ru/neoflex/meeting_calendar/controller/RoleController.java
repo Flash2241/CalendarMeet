@@ -25,7 +25,12 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    @PostMapping
+    @GetMapping
+    public ResponseEntity<List<Role>> getAllRoles() {
+        return ResponseEntity.ok(roleService.getAllRoles());
+    }
+
+    @PostMapping("/create")
     public ResponseEntity<String> createRole(@RequestBody Role role) {
         roleService.createRole(role);
         return ResponseEntity.status(HttpStatus.CREATED).body("Role created successfully");

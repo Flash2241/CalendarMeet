@@ -2,12 +2,11 @@ package ru.neoflex.meeting_calendar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.neoflex.meeting_calendar.entity.Meeting;
 import ru.neoflex.meeting_calendar.entity.Reminder;
 import ru.neoflex.meeting_calendar.exceptions.MeetingConflictException;
 import ru.neoflex.meeting_calendar.repo.ReminderRepository;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -30,8 +29,8 @@ public class ReminderService {
         return reminderRepository.save(reminder);
     }
 
-    public List<Reminder> findRemindersByMeeting(Meeting meeting) {
-        return reminderRepository.findByMeeting(meeting);
+    public List<Reminder> findRemindersByMeetingId(Integer id) {
+        return reminderRepository.findByMeeting_MeetingId(id);
     }
 
     public List<Reminder> findRemindersWithinPeriod(Timestamp startTime, Timestamp endTime) {

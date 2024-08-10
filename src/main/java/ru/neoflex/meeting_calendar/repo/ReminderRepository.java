@@ -5,13 +5,13 @@ import org.springframework.stereotype.Repository;
 import ru.neoflex.meeting_calendar.entity.Meeting;
 import ru.neoflex.meeting_calendar.entity.Reminder;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
 public interface ReminderRepository extends JpaRepository<Reminder, Integer> {
 
-    List<Reminder> findByMeeting(Meeting meeting);
+    List<Reminder> findByMeeting_MeetingId(Integer id);
 
     List<Reminder> findByReminderTimeBetween(Timestamp startTime, Timestamp endTime);
 }

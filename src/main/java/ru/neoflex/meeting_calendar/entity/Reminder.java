@@ -1,9 +1,12 @@
 package ru.neoflex.meeting_calendar.entity;
 
 import jakarta.persistence.*;
+import java.sql.Timestamp;
 import java.time.ZonedDateTime;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "Reminders")
 public class Reminder {
     @Id
@@ -15,30 +18,7 @@ public class Reminder {
     @JoinColumn(name = "meeting_id", referencedColumnName = "meeting_id")
     private Meeting meeting;
 
-    private ZonedDateTime reminderTime;
+    private Timestamp reminderTime;
 
     // Getters and setters
-    public Long getReminderId() {
-        return reminderId;
-    }
-
-    public void setReminderId(Long reminderId) {
-        this.reminderId = reminderId;
-    }
-
-    public Meeting getMeeting() {
-        return meeting;
-    }
-
-    public void setMeeting(Meeting meeting) {
-        this.meeting = meeting;
-    }
-
-    public ZonedDateTime getReminderTime() {
-        return reminderTime;
-    }
-
-    public void setReminderTime(ZonedDateTime reminderTime) {
-        this.reminderTime = reminderTime;
-    }
 }

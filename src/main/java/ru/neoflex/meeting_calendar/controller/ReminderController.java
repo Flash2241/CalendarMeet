@@ -30,7 +30,7 @@ public class ReminderController {
 
     @GetMapping("/{meetingId}")
     public ResponseEntity<List<Reminder>> getRemindersForMeeting(@PathVariable Integer meetingId) {
-        List<Reminder> reminders = reminderService.findRemindersByMeeting(new Meeting(meetingId));
+        List<Reminder> reminders = reminderService.findRemindersByMeetingId(meetingId);
         return ResponseEntity.ok(reminders);
     }
 

@@ -2,17 +2,17 @@ package ru.neoflex.meeting_calendar.entity;
 
 import jakarta.persistence.*;
 
-import java.security.Timestamp;
-import java.time.ZonedDateTime;
+import java.sql.Timestamp;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "participant_changes")
 public class ParticipantChange {
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "meeting_id", nullable = false)
-    private Meeting meeting;
+    @Column(name = "meeting_id")
+    private Integer meeting_id;
 
     @Id
     @ManyToOne
@@ -29,21 +29,6 @@ public class ParticipantChange {
     @Column(name = "operation", nullable = false, length = 20)
     private String operation;
 
-    public void setOperation(String operation) {
-    }
-
-    public void setChangeTime(Timestamp timestamp) {
-    }
-
-    public void setOldStatus(MeetingParticipantStatus oldStatus) {
-    }
-
-    public void setUser(User user) {
-    }
-
-    public void setMeeting(Meeting meeting) {
-
-    }
 
     // Геттеры и сеттеры
 }

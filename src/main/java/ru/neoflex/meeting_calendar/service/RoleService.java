@@ -1,14 +1,13 @@
 package ru.neoflex.meeting_calendar.service;
 
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.meeting_calendar.entity.Role;
 import ru.neoflex.meeting_calendar.exceptions.MeetingConflictException;
 import ru.neoflex.meeting_calendar.repo.RoleRepository;
 import ru.neoflex.meeting_calendar.exceptions.RoleNotFoundException;
-import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -31,5 +30,9 @@ public class RoleService {
             throw new MeetingConflictException("Role with this name already exists");
         }
         return roleRepository.save(role);
+    }
+
+    public List<Role> getAllRoles() {
+        return roleRepository.findAllBy();
     }
 }

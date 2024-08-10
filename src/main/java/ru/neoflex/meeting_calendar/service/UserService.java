@@ -1,5 +1,6 @@
 package ru.neoflex.meeting_calendar.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,13 +21,13 @@ public class UserService implements org.springframework.security.core.userdetail
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
+        //this.passwordEncoder = passwordEncoder;
     }
 
     public User createUser(User user) {
@@ -39,7 +40,7 @@ public class UserService implements org.springframework.security.core.userdetail
         user.setUserRole(userRole);
 
         // Шифруем пароль перед сохранением
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }
@@ -49,6 +50,17 @@ public class UserService implements org.springframework.security.core.userdetail
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByUserEmail(email);
+    }
+
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public List<User> getUsersByRole(Integer roleId) {
+        return userRepository.findUsersByUserRole_RoleId(roleId);
+    }
     // Метод для загрузки пользователя по имени пользователя
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -62,9 +74,9 @@ public class UserService implements org.springframework.security.core.userdetail
     }
 
     // Метод для проверки учетных данных пользователя
-    public boolean validateUserCredentials(String email, String rawPassword) {
+/*    public boolean validateUserCredentials(String email, String rawPassword) {
         User user = userRepository.findByUserEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
         return passwordEncoder.matches(rawPassword, user.getPassword());
-    }
+    }*/
 }

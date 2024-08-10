@@ -7,7 +7,7 @@ import ru.neoflex.meeting_calendar.entity.Job;
 import ru.neoflex.meeting_calendar.entity.Meeting;
 import ru.neoflex.meeting_calendar.entity.User;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository

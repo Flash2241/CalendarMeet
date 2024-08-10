@@ -1,3 +1,4 @@
+/*
 package ru.neoflex.meeting_calendar.security;
 
 
@@ -51,3 +52,4 @@ public class JwtTokenUtil {
         return extractExpiration(token).before(new Date());
     }
 }
+*/

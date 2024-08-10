@@ -4,14 +4,16 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 @Table(name = "meetings")
 public class Meeting {
 
     @Id
+    @Column(name = "meeting_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer meetingId;
 
@@ -34,27 +36,6 @@ public class Meeting {
 
     @Column(length = 255)
     private String comment;
-
-    public Meeting(Integer meetingId) {
-
-    }
-
-    public Timestamp getStartTime() {
-    }
-
-    public Timestamp getEndTime() {
-        return null;
-    }
-
-    public void setStartTime(java.sql.Timestamp timestamp) {
-    }
-
-    public void setEndTime(java.sql.Timestamp timestamp) {
-    }
-
-    public void setMeetingId(int i) {
-
-    }
 
     // Геттеры и сеттеры
 }

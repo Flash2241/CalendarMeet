@@ -1,3 +1,4 @@
+/*
 package ru.neoflex.meeting_calendar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,3 +46,4 @@ public class AuthController {
         return response;
     }
 }
+*/

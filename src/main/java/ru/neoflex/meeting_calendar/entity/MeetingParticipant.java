@@ -5,6 +5,7 @@ import lombok.Data;
 
 
 @Entity
+@Data
 @Table(name = "meeting_participants")
 @IdClass(MeetingParticipantId.class)
 public class MeetingParticipant {
@@ -22,16 +23,6 @@ public class MeetingParticipant {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private MeetingParticipantStatus status;
-
-    public void setMeeting(Meeting meeting) {
-    }
-
-    public void setUser(User user) {
-    }
-
-    public void setStatus(MeetingParticipantStatus status) {
-
-    }
 
     // Геттеры и сеттеры
 }

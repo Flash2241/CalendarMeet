@@ -2,17 +2,16 @@ package ru.neoflex.meeting_calendar.entity;
 
 import jakarta.persistence.*;
 
-import ru.neoflex.meeting_calendar.entity.Role;
 import lombok.Data;
-
-import javax.management.relation.RelationNotification;
 
 
 @Entity
+@Data
 @Table(name = "users")
 public class User {
 
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
@@ -40,30 +39,6 @@ public class User {
 
     @Column(nullable = false, length = 255)
     private String password;
-
-    public String getUserEmail() {
-    }
-
-    public RelationNotification getUserRole() {
-    }
-
-    public void setUserRole(Role userRole) {
-    }
-
-    public Object getPassword() {
-        return null;
-    }
-
-    public void setUserEmail(String mail) {
-    }
-
-    public void setUserId(int i) {
-
-    }
-
-    public void setPassword(String encode) {
-
-    }
 
     // Геттеры и сеттеры
 }

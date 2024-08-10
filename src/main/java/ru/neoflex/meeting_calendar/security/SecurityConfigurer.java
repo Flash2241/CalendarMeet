@@ -1,3 +1,4 @@
+/*
 package ru.neoflex.meeting_calendar.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,3 +52,4 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         return NoOpPasswordEncoder.getInstance();  // Простой нешифрующий encoder, для продакшена нужно использовать BCrypt или другие
     }
 }
+*/

@@ -8,5 +8,5 @@ import ru.neoflex.meeting_calendar.entity.MeetingParticipantId;
 
 @Repository
 public interface ParticipantRepository extends JpaRepository<MeetingParticipant, MeetingParticipantId> {
-  List<MeetingParticipant> findByParticipantData_Meeting_MeetingId(Long meetingId);
+  List<MeetingParticipant> findByMeeting_MeetingId(Integer meetingId);
 }

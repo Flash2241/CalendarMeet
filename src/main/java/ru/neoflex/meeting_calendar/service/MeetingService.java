@@ -6,11 +6,9 @@ package ru.neoflex.meeting_calendar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.meeting_calendar.entity.*;
-import ru.neoflex.meeting_calendar.repo.MeetingChangeRepository;
 import ru.neoflex.meeting_calendar.repo.MeetingParticipantRepository;
 import ru.neoflex.meeting_calendar.repo.MeetingRepository;
 import ru.neoflex.meeting_calendar.exceptions.MeetingConflictException;
-import java.security.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,15 +18,12 @@ public class MeetingService {
 
     private final MeetingRepository meetingRepository;
     private final MeetingParticipantRepository meetingParticipantRepository;
-    private final MeetingChangeRepository meetingChangeRepository;
 
     @Autowired
     public MeetingService(MeetingRepository meetingRepository,
-                          MeetingParticipantRepository meetingParticipantRepository,
-                          MeetingChangeRepository meetingChangeRepository) {
+                          MeetingParticipantRepository meetingParticipantRepository) {
         this.meetingRepository = meetingRepository;
         this.meetingParticipantRepository = meetingParticipantRepository;
-        this.meetingChangeRepository = meetingChangeRepository;
     }
 
     public Meeting createMeeting(Meeting meeting) {
@@ -41,6 +36,9 @@ public class MeetingService {
         return meetingRepository.save(meeting);
     }
 
+    public Optional<Meeting> findMeetingById(Integer id) {
+        return meetingRepository.findById(id);
+    }
     public void addParticipantToMeeting(Meeting meeting, User user, MeetingParticipantStatus status) {
         // Проверка на существование участника
         if (meetingParticipantRepository.existsByMeetingAndUser(meeting, user)) {
@@ -62,17 +60,4 @@ public class MeetingService {
         return meetingRepository.findByJob(job);
     }
 
-    public void logMeetingChange(Meeting meeting, String oldTitle, Timestamp oldStartTime, Timestamp oldEndTime, Job oldJob, String oldMeetingResult, User changedBy, String operation) {
-        MeetingChange change = new MeetingChange();
-        change.setMeeting(meeting);
-        change.setOldTitle(oldTitle);
-        change.setOldStartTime(oldStartTime);
-        change.setOldEndTime(oldEndTime);
-        change.setOldJob(oldJob);
-        change.setOldMeetingResult(oldMeetingResult);
-        change.setChangedBy(changedBy);
-        change.setChangeTime(new Timestamp(System.currentTimeMillis()));
-        change.setOperation(operation);
-        meetingChangeRepository.save(change);
-    }
 }

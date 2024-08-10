@@ -1,3 +1,4 @@
+/*
 
 package ru.neoflex.meeting_calendar.service;
 
@@ -25,21 +26,20 @@ public class EmailService {
   private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
   public void sendEmailInvitations(Meeting meeting) {
-    List<MeetingParticipant> participants = participantRepository.findByParticipantData_Meeting_MeetingId(
-        meeting.getMeetingId());
+    List<MeetingParticipant> participants = participantRepository.findByMeeting_MeetingId(meeting.getMeetingId());
 
-    String meetingDate = meeting.getStartTime().toLocalDate().format(dateFormatter);
-    String meetingTime = meeting.getStartTime().toLocalTime().format(timeFormatter);
+    String meetingDate = meeting.getStartTime().toLocalDateTime().toLocalDate().format(dateFormatter);
+    String meetingTime = meeting.getStartTime().toLocalDateTime().toLocalTime().format(timeFormatter);
 
     SimpleMailMessage message = new SimpleMailMessage();
     message.setSubject("Запись на собеседование " + meetingDate);
 
     for (MeetingParticipant meetingParticipant : participants) {
-      User participant = meetingParticipant.getParticipantData().getUser();
+      User participant = meetingParticipant.getUser();
 
-      message.setTo(participant.getEmail());
+      message.setTo(participant.getUserEmail());
       message.setText(
-          "Вы записаны на собеседование в качестве " + participant.getRole().getName() + "."
+          "Вы записаны на собеседование в качестве " + participant.getUserRole().getRoleName() + "."
               + "Собеседование назначено на " + meetingDate + ", " + meetingTime + ".");
 
       //TODO: принятие или отказ - ссылка на страницу встречу фронтенда,
@@ -52,29 +52,29 @@ public class EmailService {
 
   public void sendUpdateEmailNotification(Meeting meeting, Meeting oldMeeting) {
 
-    String meetingDate = meeting.getStartTime().toLocalDate().format(dateFormatter);
-    String oldMeetingDate = oldMeeting.getStartTime().toLocalDate().format(timeFormatter);
+    String meetingDate = meeting.getStartTime().toLocalDateTime().toLocalDate().format(dateFormatter);
+    String oldMeetingDate = oldMeeting.getStartTime().toLocalDateTime().toLocalDate().format(dateFormatter);
 
-    String meetingTime = meeting.getStartTime().toLocalTime().format(timeFormatter);
-    String oldMeetingTime = meeting.getStartTime().toLocalTime().format(timeFormatter);
+    String meetingTime = meeting.getStartTime().toLocalDateTime().toLocalTime().format(timeFormatter);
+    String oldMeetingTime = meeting.getStartTime().toLocalDateTime().toLocalTime().format(timeFormatter);
 
-    List<MeetingParticipant> participants = participantRepository.findByParticipantData_Meeting_MeetingId(
+    List<MeetingParticipant> participants = participantRepository.findByMeeting_MeetingId(
         meeting.getMeetingId());
 
-    List<MeetingParticipant> oldParticipants = participantRepository.findByParticipantData_Meeting_MeetingId(
+    List<MeetingParticipant> oldParticipants = participantRepository.findByMeeting_MeetingId(
         oldMeeting.getMeetingId());
     SimpleMailMessage message = new SimpleMailMessage();
     String emailText = "";
 
     for(MeetingParticipant participant : participants) {
       for(MeetingParticipant oldParticipant : oldParticipants) {
-        User participantId = participant.getParticipantData().getUser();
-        User oldParticipantId = oldParticipant.getParticipantData().getUser();
+        User participantId = participant.getUser();
+        User oldParticipantId = oldParticipant.getUser();
 
         if(!(participantId.getUserId().equals(oldParticipantId.getUserId()))) {
           message.setSubject("Изменён состав участников собеседования " + meetingDate + " изменено");
-          emailText += participantId.getRole().getName() + " " + participantId.getName() + " изменился: теперь"
-              + " данную роль занимает " + participantId.getName() + ".\n";
+          emailText += participantId.getUserRole().getRoleName() + " " + participantId.getUserName() + " изменился: теперь"
+              + " данную роль занимает " + participantId.getUserName() + ".\n";
         }
       }
     }
@@ -92,7 +92,7 @@ public class EmailService {
 
     for(MeetingParticipant participant : participants) {
 
-      message.setTo(participant.getParticipantData().getUser().getEmail());
+      message.setTo(participant.getUser().getUserEmail());
       emailSender.send(message);
       logSimpleMailMessage(message);
     }
@@ -106,3 +106,4 @@ public class EmailService {
   }
 }
 
+*/
