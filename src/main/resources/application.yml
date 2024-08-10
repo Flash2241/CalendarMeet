@@ -2,7 +2,7 @@ spring:
   application:
       name: CalendarMeet
   datasource:
-    url: jdbc:postgresql://rc1b-wwbzmz7xcyzdmat1.mdb.yandexcloud.net:6432/cnrprod1723112633-team-74053?sslmode=verify-full&sslrootcert=~/.postgresql/root.crt
+    url: jdbc:postgresql://rc1b-wwbzmz7xcyzdmat1.mdb.yandexcloud.net:6432/cnrprod1723112633-team-74053?sslmode=verify-full&sslrootcert=/root/.postgresql/root.crt
     username: cnrprod1723112633-team-74053
     password: hah9oonahshooquiequo1Mae5aiphuaS
     driver-class-name: org.postgresql.Driver
